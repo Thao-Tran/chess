@@ -19,7 +19,7 @@ public class ChessTest {
 
     @Before
     public void setUp() throws Exception {
-        game = new ChessGame();
+        game = new ChessGame("Thao");
         knight = game.getKnight();
         board = game.getBoard();
     }

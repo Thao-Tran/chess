@@ -32,7 +32,7 @@ public class Knight {
     }
 
     /**
-     * The moveTo method moves the chess piece if the inputted row and column are within bounds [0, 7] and is a valid
+     * The moveTo method moves the knight if the inputted row and column are within bounds [0, 7] and is a valid
      * move.
      *
      * @param newLocation ChessLocation object that represents the new location that the chess piece will be placed at
@@ -52,90 +52,90 @@ public class Knight {
     }
 
     /**
-     * The getLocation method is an accessor for the location of the chess piece.
+     * The getLocation method is an accessor for the location of the knight.
      *
-     * @return A ChessLocation object representing the current location of the chess piece
+     * @return A ChessLocation object representing the current location of the knight.
      */
     public ChessLocation getLocation() {
         return location;
     }
 
     /**
-     * The getLocation method is a mutator for the location of the chess piece.
+     * The setLocation method is a mutator for the location of the knight.
      *
-     * @param location A
+     * @param location A ChessLocation object representing the desired location of the knight.
      */
     public void setLocation(ChessLocation location) {
         this.location = location;
     }
 
     /**
-     * The getLocation method is an accessor for the location of the chess piece.
+     * The getOwner method is an accessor for the owner of the knight.
      *
-     * @return A ChessLocation object representing the current location of the chess piece
+     * @return A String of the name of the owner.
      */
     public String getOwner() {
         return owner;
     }
 
     /**
-     * The getLocation method is an accessor for the location of the chess piece.
+     * The setOwner method is a mutator for the owner of the knight.
      *
-     * @return A ChessLocation object representing the current location of the chess piece
+     * @param owner A String of the name of the new owner.
      */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
     /**
-     * The getLocation method is an accessor for the location of the chess piece.
+     * The getGame method is an accessor for the game that the knight is currently in.
      *
-     * @return A ChessLocation object representing the current location of the chess piece
+     * @return A ChessGame object representing the current game.
      */
     public ChessGame getGame() {
         return game;
     }
 
     /**
-     * The getLocation method is an accessor for the location of the chess piece.
+     * The setGame method is a mutator for the game that the knight is in.
      *
-     * @return A ChessLocation object representing the current location of the chess piece
+     * @param game A ChessGame object representing the new game.
      */
     public void setGame(ChessGame game) {
         this.game = game;
     }
 
     /**
-     * The getLocation method is an accessor for the location of the chess piece.
+     * The getInvalidMove method is an accessor for the validity of the desired move.
      *
-     * @return A ChessLocation object representing the current location of the chess piece
+     * @return A boolean stating true if the move was invalid and false if not.
      */
     public boolean getInvalidMove() {
         return invalidMove;
     }
 
     /**
-     * The getLocation method is an accessor for the location of the chess piece.
+     * The setInvalidMove method is a mutator for the validity of the desired move.
      *
-     * @return A ChessLocation object representing the current location of the chess piece
+     * @param invalidMove A boolean stating true if the move was invalid and false if not.
      */
     public void setInvalidMove(boolean invalidMove) {
         this.invalidMove = invalidMove;
     }
 
     /**
-     * The getLocation method is an accessor for the location of the chess piece.
+     * The getPiece method is an accessor for the visual of the knight.
      *
-     * @return A ChessLocation object representing the current location of the chess piece
+     * @return A String of the visual for the knight.
      */
     public String getPiece() {
         return piece;
     }
 
     /**
-     * The getLocation method is an accessor for the location of the chess piece.
+     * The setPiece method is a mutator for the visual of the knight.
      *
-     * @return A ChessLocation object representing the current location of the chess piece
+     * @param piece A String of the new visual for the knight.
      */
     public void setPiece(String piece) {
         this.piece = piece;
