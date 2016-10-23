@@ -11,17 +11,21 @@ import static org.junit.Assert.*;
  * @version 1.0 (05.Oct.2016)
  */
 
-public class ChessTest {
+public class KnightTest {
     ChessGame game;
-    Knight knight;
     ChessBoard board;
     ChessLocation location;
+    ChessPiece knight;
+    int initialRow;
+    int initialCol;
 
     @Before
     public void setUp() throws Exception {
-        game = new ChessGame("Thao");
-        knight = game.getKnight();
+        game = new ChessGame("Thao1", "Thao2");
         board = game.getBoard();
+        knight = board.getPieceAt(new ChessLocation(initialRow, initialCol));
+        initialRow = 0;
+        initialCol = 1;
     }
 
     @After
@@ -112,7 +116,7 @@ public class ChessTest {
         location = knight.getLocation();
         ChessLocation newLocation = new ChessLocation(location.getRow() - 2, location.getCol() + 2);
         knight.moveTo(newLocation);
-        assert(knight.getInvalidMove());
+        assert(game.getInvalidMove());
     }
 
     @Test
@@ -123,7 +127,7 @@ public class ChessTest {
 
         board.placePieceAt(knight, setLocation);
         knight.moveTo(newLocation);
-        assert(knight.getInvalidMove());
+        assert(game.getInvalidMove());
     }
 
     @Test
@@ -131,7 +135,7 @@ public class ChessTest {
         location = knight.getLocation();
         ChessLocation newLocation = new ChessLocation(location.getRow() - 1, location.getCol() + 4);
         knight.moveTo(newLocation);
-        assert(knight.getInvalidMove());
+        assert(game.getInvalidMove());
     }
 
     @Test
@@ -139,7 +143,7 @@ public class ChessTest {
         location = knight.getLocation();
         ChessLocation newLocation = new ChessLocation(location.getRow() + 10, location.getCol() - 10);
         knight.moveTo(newLocation);
-        assert(knight.getInvalidMove());
+        assert(game.getInvalidMove());
     }
 
 

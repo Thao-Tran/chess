@@ -7,16 +7,26 @@
 
 public class ChessGame {
     private ChessBoard board;
-    private Knight knight;
+    private String player1;
+    private String player2;
+    private boolean invalidMove;
 
     /**
-     * The ChessGame constructor initializes the chessboard and the knight piece.
+     * The ChessGame constructor initializes the chessboard and chess pieces.
      *
-     * @param owner A String of the name of the owner of the knight.
+     * @param player1 A String of the name of player 1.
+     * @param player2 A String of the name of player 2.
      */
-    public ChessGame(String owner) {
+    public ChessGame(String player1, String player2) {
         board = new ChessBoard();
-        knight = new Knight(owner, new ChessLocation(7, 1), this);
+        this.player1 = player1;
+        this.player2 = player2;
+        new Knight(player1, new ChessLocation(0, 1), this);
+        new Knight(player1, new ChessLocation(0, 6), this);
+        new Rook(player1, new ChessLocation(0, 0), this);
+        new Rook(player1, new ChessLocation(0, 7), this);
+
+        invalidMove = false;
     }
 
     /**
@@ -38,20 +48,56 @@ public class ChessGame {
     }
 
     /**
-     * The getKnight method is an accessor for the knight of the current game.
+     * The getPlayer1 method is an accessor for the name of player 1.
      *
-     * @return A Knight object representing the knight of the current game.
+     * @return A String object representing the name of player 1.
      */
-    public Knight getKnight() {
-        return knight;
+    public String getPlayer1() {
+        return player1;
     }
 
     /**
-     * The setKnight method is a mutator for the knight of the current game.
+     * The setPlayer1 method is a mutator for the name of player 1.
      *
-     * @param knight    A Knight object that represents the new knight of the game.
+     * @param player1    A String object that represents the new name of player 1.
      */
-    public void setKnight(Knight knight) {
-        this.knight = knight;
+    public void setPlayer1(String player1) {
+        this.player1 = player1;
+    }
+
+    /**
+     * The getPlayer2 method is an accessor for the name of player 2.
+     *
+     * @return A String object representing the name of player 2.
+     */
+    public String getPlayer2() {
+        return player2;
+    }
+
+    /**
+     * The setPlayer2 method is a mutator for the name of player 2.
+     *
+     * @param player2    A String object that represents the new name of player 2.
+     */
+    public void setPlayer2(String player2) {
+        this.player2 = player2;
+    }
+
+    /**
+     * The getInvalidMove method is an accessor for the validity of the desired move.
+     *
+     * @return A boolean stating true if the move was invalid and false if not.
+     */
+    public boolean getInvalidMove() {
+        return invalidMove;
+    }
+
+    /**
+     * The setInvalidMove method is a mutator for the validity of the desired move.
+     *
+     * @param invalidMove A boolean stating true if the move was invalid and false if not.
+     */
+    public void setInvalidMove(boolean invalidMove) {
+        this.invalidMove = invalidMove;
     }
 }

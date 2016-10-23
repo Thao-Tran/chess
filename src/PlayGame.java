@@ -17,60 +17,79 @@ public class PlayGame {
      */
     public static void main(String[] args) {
         boolean quit = false;
+        Scanner reader = new Scanner(System.in); // Initialize scanner to read inputs
+        String input;
+        String[] inputCoords;
+        int[] srcCoords;
+        int[] destCoords;
+        ChessLocation srcLocation;
+        ChessLocation destLocation;
+        ChessPiece piece;
 
-        // Get user's name and begin chess game
-        Scanner reader = new Scanner(System.in);
-        System.out.println("This is chess. What's your name?");
-        ChessGame game = new ChessGame(reader.nextLine());
+        // Begin chess game
+
+        System.out.println("This is chess.");
+        ChessGame game = new ChessGame("player1", "player2");
 
         // Continue until user quits
         while (!quit) {
-
             // Display chess board and if the previous move was invalid
             System.out.println("\n\n\n" + game.getBoard());
-            if (game.getKnight().getInvalidMove()) {
+            if (game.getInvalidMove()) {
                 System.out.println("Invalid values inputted.");
-                game.getKnight().setInvalidMove(false);
+                game.setInvalidMove(false);
             }
 
-            // Get new location of knight or "quit" from user
-            System.out.println("Input new knight position as 'row column'.\nIf you would like to quit, enter 'quit'.");
-            String command = reader.nextLine();
+            // Ask user if they want to move or quit
+            System.out.println("Would you like to 'move' or 'quit'?");
+            input = reader.nextLine();
 
-            if (command.equals("quit")) { // Quits game
+            if (input.equals("quit")) {
                 quit = true;
             }
             else {
-                String[] coords = command.split(" ");
-                if (coords.length == 2) {
-                    // If the inputted row isn't an integer and the column is
-                    if (!isInt(coords[0]) && isInt(coords[1])) {
-                        // Convert row character to ASCII and column number to integer
-                        int row = (int) coords[0].charAt(0);
-                        int col = Integer.parseInt(coords[1]);
+                System.out.println("\n\n\n" + game.getBoard());
+                // Get new location of knight or "quit" from user
+                System.out.println("Input the position of the piece you would like to move. Example: 'A 1'");
+                input = reader.nextLine();
 
-                        // If the row inputted is within bounds [A, H] or [a, h], convert to [0, 7], if not, invalid move
-                        if (row >= 65 && row <= 72) {
-                            row -= 65;
-                        } else if (row >= 97 && row <= 104) {
-                            row -= 97;
+                inputCoords = input.split(" ");
+                srcCoords = convertCoordinate(game, inputCoords);
+
+                if (srcCoords != null) {
+                    if (game.getBoard().isPieceAt(srcCoords[0], srcCoords[1])) {
+                        srcLocation = new ChessLocation(srcCoords[0], srcCoords[1]);
+                        piece = game.getBoard().getPieceAt(srcLocation);
+                        piece.createShadows();
+                        // Display chess board
+                        System.out.println("\n\n\n" + game.getBoard());
+                        System.out.println("Input the destination of the piece or 'cancel' the move.");
+                        input = reader.nextLine();
+                        inputCoords = input.split(" ");
+
+                        if (input.equals("cancel")) {
                         } else {
-                            game.getKnight().setInvalidMove(true);
-                        }
+                            destCoords = convertCoordinate(game, inputCoords);
 
-                        // If move wasn't invalid, move the knight to the location
-                        if (!game.getKnight().getInvalidMove()) {
-                            ChessLocation location = new ChessLocation(row, col);
-                            game.getKnight().moveTo(location);
+                            if (destCoords != null) {
+                                // If move wasn't invalid, move the knight to the location
+                                if (!game.getInvalidMove()) {
+                                    destLocation = new ChessLocation(destCoords[0], destCoords[1]);
+                                    game.getBoard().getPieceAt(srcLocation).moveTo(destLocation);
+                                }
+                            } else {
+                                game.setInvalidMove(true);
+                            }
                         }
-                    } else { // Invalid move
-                        game.getKnight().setInvalidMove(true);
+                    } else {
+                        game.setInvalidMove(true);
                     }
-                }
-                else {
-                    game.getKnight().setInvalidMove(true);
+                } else {
+                    game.setInvalidMove(true);
                 }
             }
+
+            game.getBoard().resetShadows();
         }
     }
 
@@ -88,5 +107,38 @@ public class PlayGame {
         }
 
         return true;
+    }
+
+    /**
+     * The convertCoordinate method converts a string representation of the coordinates to integers.
+     * @param game
+     * @param inputCoords
+     * @return
+     */
+    private static int[] convertCoordinate(ChessGame game, String[] inputCoords) {
+        int[] coords;
+        if (inputCoords.length == 2) {
+            // If the inputted row isn't an integer and the column is
+            if (!isInt(inputCoords[0]) && isInt(inputCoords[1])) {
+                // Convert row character to ASCII and column number to integer
+                int row = (int) inputCoords[0].charAt(0);
+                int col = Integer.parseInt(inputCoords[1]);
+
+                // If the row inputted is within bounds [A, H] or [a, h], convert to [0, 7], if not, invalid move
+                if (row >= 65 && row <= 72) {
+                    row -= 65;
+                } else if (row >= 97 && row <= 104) {
+                    row -= 97;
+                } else {
+                    game.setInvalidMove(true);
+                }
+
+                coords = new int[]{row, col};
+
+                return coords;
+            }
+        }
+
+        return null;
     }
 }

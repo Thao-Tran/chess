@@ -7,7 +7,8 @@
  */
 
 public class ChessBoard {
-    private Knight chessboard[][];
+    private ChessPiece chessboard[][];
+    private boolean shadows[][];
     private static final String H_LINE = "---";
     private static final String V_LINE = "|";
     private static final String IN_USE = " %s ";
@@ -15,10 +16,16 @@ public class ChessBoard {
     private static final String NEWLINE = "\n";
 
     /**
-     * The ChessBoard constructor initializes the chessboard Knight 8x8 array to null.
+     * The ChessBoard constructor initializes the chessboard ChessPiece 8x8 array to null.
      */
     public ChessBoard() {
-        chessboard = new Knight[8][8];
+        chessboard = new ChessPiece[8][8];
+        shadows = new boolean[8][8];
+        resetShadows();
+    }
+
+    public ChessPiece getPieceAt(ChessLocation location) {
+        return chessboard[location.getRow()][location.getCol()];
     }
 
     /**
@@ -31,27 +38,21 @@ public class ChessBoard {
     public boolean isPieceAt(int row, int col){
 
         // If the inputted rows and columns are within the boundaries
-        if (row >= 0 && row <= 7 && col >= 0 && col <= 7 && chessboard[row][col] != null) {
-            // Return whether the piece at the location is the same piece as the specified piece or not
-            return true;
-        }
-        else { // If they are not
-            return false;
-        }
+        return row >= 0 && row <= 7 && col >= 0 && col <= 7 && chessboard[row][col] != null;
     }
 
     /**
      * The placePieceAt method places the specific chess piece at the specified location.
      *
-     * @param knight    A Knight object representing the knight to be moved.
+     * @param piece    A ChessPiece object representing the piece to be moved.
      * @param location  A ChessLocation object representing the desired location of the chess piece.
      */
-    public void placePieceAt(Knight knight, ChessLocation location) {
+    public void placePieceAt(ChessPiece piece, ChessLocation location) {
         if (!isPieceAt(location.getRow(), location.getCol())) {
-            ChessLocation currentLocation = knight.getLocation();
+            ChessLocation currentLocation = piece.getLocation();
             removePiece(currentLocation);
-            chessboard[location.getRow()][location.getCol()] = knight;
-            knight.setLocation(location);
+            chessboard[location.getRow()][location.getCol()] = piece;
+            piece.setLocation(location);
         }
     }
 
@@ -63,6 +64,41 @@ public class ChessBoard {
     public void removePiece(ChessLocation location) {
         if (isPieceAt(location.getRow(), location.getCol())) {
             chessboard[location.getRow()][location.getCol()] = null;
+        }
+    }
+
+    /**
+     * The isFriendlyPiece method checks if the piece at a location is owned by the same player as the provided piece.
+     * @param piece     A ChessPiece object that represents the chess piece being checked.
+     * @param location  A ChessLocation object that represents the location of the other chess piece being checked.
+     * @return  A boolean object that represents whether the piece at the location is owned by the same player as the
+     *          provided piece.
+     */
+    public boolean isFriendlyPiece(ChessPiece piece, ChessLocation location) {
+        if (isPieceAt(location.getRow(), location.getCol())) {
+            return piece.getPlayer().equals(chessboard[location.getRow()][location.getCol()].getPlayer());
+        }
+        else {
+            return true;
+        }
+    }
+
+    /**
+     * The setShadow method sets a shadow at the provided location.
+     * @param location  A ChessLocation object that represents the location of the shadow.
+     */
+    public void setShadow(ChessLocation location) {
+        shadows[location.getRow()][location.getCol()] = true;
+    }
+
+    /**
+     * The resetShadow method resets all shadows back to false.
+     */
+    public void resetShadows() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                shadows[i][j] = false;
+            }
         }
     }
 
@@ -117,8 +153,12 @@ public class ChessBoard {
                 // Add either an empty space if there isn't a piece there or the piece if there is, and a vertical line
                 else {
                     if (chessboard[i / 2 - 1][j] != null) {
-                        stringBoard += String.format(IN_USE, chessboard[i / 2 - 1][j].getPiece()) + V_LINE;
-                    } else {
+                        stringBoard += String.format(IN_USE, chessboard[i / 2 - 1][j].getId()) + V_LINE;
+                    }
+                    else if (shadows[i / 2 - 1][j]) {
+                        stringBoard += String.format(IN_USE, 'X') + V_LINE;
+                    }
+                    else {
                         stringBoard += "   " + V_LINE;
                     }
                 }
