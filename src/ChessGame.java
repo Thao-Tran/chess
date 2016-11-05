@@ -21,10 +21,22 @@ public class ChessGame {
         board = new ChessBoard();
         this.player1 = player1;
         this.player2 = player2;
-        new Knight(player1, new ChessLocation(0, 1), this);
-        new Knight(player1, new ChessLocation(0, 6), this);
         new Rook(player1, new ChessLocation(0, 0), this);
+        new Knight(player1, new ChessLocation(0, 1), this);
+        new Bishop(player1, new ChessLocation(0, 2), this);
+        new Queen(player1, new ChessLocation(0, 3), this);
+        new King(player1, new ChessLocation(0, 4), this);
+        new Bishop(player1, new ChessLocation(0, 5), this);
+        new Knight(player1, new ChessLocation(0, 6), this);
         new Rook(player1, new ChessLocation(0, 7), this);
+        new Pawn(player1, new ChessLocation(1, 0), this);
+        new Pawn(player1, new ChessLocation(1, 1), this);
+        new Pawn(player1, new ChessLocation(1, 2), this);
+        new Pawn(player1, new ChessLocation(1, 3), this);
+        new Pawn(player1, new ChessLocation(1, 4), this);
+        new Pawn(player1, new ChessLocation(1, 5), this);
+        new Pawn(player1, new ChessLocation(1, 6), this);
+        new Pawn(player1, new ChessLocation(1, 7), this);
 
         invalidMove = false;
     }

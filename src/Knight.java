@@ -1,6 +1,9 @@
+import static java.lang.Math.abs;
+
 /**
- * The Knight represents a knight chess piece object. It is used to display a knight on the
- * chessboard and move the piece around the board.
+ * The Knight class is a subclass of the ChessPiece class and represents a knight chess piece object. It is used
+ * initialize the id of the knight and place it on the board. It also determines whether the inputted move is valid or
+ * not.
  *
  * @author  Thao-Tran Le-Phuong
  * @version 1.0 (05.Oct.2016)
@@ -12,9 +15,9 @@ public class Knight extends ChessPiece{
      * parameters, and invalidMove to false. The constructor also places the object at the initial location on the
      * chessboard.
      *
-     * @param owner           String representing the name of the owner of the game.
-     * @param initialLocation ChessLocation object representing the initial location of the piece
-     * @param game            ChessGame object represent the chess game that the piece is for
+     * @param owner String representing the name of the owner of the game.
+     * @param initialLocation ChessLocation object representing the initial location of the piece.
+     * @param game ChessGame object represent the chess game that the piece is for.
      */
     public Knight(String owner, ChessLocation initialLocation, ChessGame game) {
         super(owner, initialLocation, game);
@@ -31,20 +34,11 @@ public class Knight extends ChessPiece{
         game.getBoard().placePieceAt(this, initialLocation);
     }
 
-    /**
-     * The checkValidMove method checks whether that inputted change in row and col is valid.
-     *
-     * @param deltaRow  The change in the row.
-     * @param deltaCol  The change in the column.
-     * @return  A boolean object that represents whether the inputted move is valid.
-     */
     @Override
     public boolean checkValidMove(int deltaRow, int deltaCol) {
-        if (deltaRow == 1 && deltaCol == 2 || deltaRow == 2 && deltaCol == 1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        deltaRow = Math.abs(deltaRow);
+        deltaCol = Math.abs(deltaCol);
+
+        return (deltaRow == 1 && deltaCol == 2 || deltaRow == 2 && deltaCol == 1);
     }
 }

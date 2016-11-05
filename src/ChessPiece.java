@@ -1,5 +1,7 @@
 /**
- * The ChessPiece class.
+ * The ChessPiece class represents a chess piece object. It initializes the owner, initial location, and game of the
+ * piece. It is used to move the piece to valid squares and create shadows on paths that are valid moves but are
+ * blocked.
  *
  * @author Thao-Tran Le-Phuong
  * @version 1.0 (22.Oct.2016)
@@ -22,12 +24,13 @@ public class ChessPiece {
      * @param newLocation ChessLocation object that represents the new location that the chess piece will be placed at
      */
     public void moveTo(ChessLocation newLocation) {
-        int deltaRow = Math.abs(newLocation.getRow() - location.getRow());
-        int deltaCol = Math.abs(newLocation.getCol() - location.getCol());
+        int deltaRow = newLocation.getRow() - location.getRow();
+        int deltaCol = newLocation.getCol() - location.getCol();
         if (newLocation.getRow()<=7 && newLocation.getRow()>=0 && newLocation.getCol()<=7 && newLocation.getCol()>=0) {
             if (checkValidMove(deltaRow, deltaCol) && checkLineOfSight(location, newLocation)) {
                 game.setInvalidMove(false);
                 game.getBoard().placePieceAt(this, newLocation);
+                setFirstMove();
             }
             else {
                 game.setInvalidMove(true);
@@ -41,7 +44,22 @@ public class ChessPiece {
     /**
      * The createShadows method adds shadows at legal moves that are blocked.
      */
-    public void createShadows() {}
+    public void createShadows() {
+        ChessLocation location;
+        // Loops through all squares of chessboard.
+        for (int i = 0; i < 8; i++) { // i represents row.
+            for (int j = 0; j < 8; j++) { // j represents column.
+                // Checks if the move from the piece location to the square is valid.
+                if (checkValidMove(i -getLocation().getRow(), j - getLocation().getCol())) {
+                    location = new ChessLocation(i, j);
+                    // Sets shadow at square if the path to the square is blocked.
+                    if (!checkLineOfSight(getLocation(), location)) {
+                        getGame().getBoard().setShadow(location);
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * The checkValidMove method checks whether that inputted change in row and col is valid.
@@ -55,13 +73,50 @@ public class ChessPiece {
     }
 
     /**
-     * The checkLineOfSight method checks whether the destination is blocked.
+     * The checkLineOfSight method checks whether path to the destination is clear.
      *
      * @param start A ChessLocation object that represents the start location of the chess piece.
      * @param end   A ChessLocation object that represents the end location of the chess piece.
-     * @return  A boolean object the represents whether the path from the start location to the end location is blocked.
+     * @return  A boolean object the represents whether the path from the start location to the end location is clear.
      */
     protected boolean checkLineOfSight(ChessLocation start, ChessLocation end) {
+        int rowInc = 0;
+        int colInc = 0;
+        int currRow = start.getRow();
+        int currCol = start.getCol();
+
+        // If there is a friendly piece at the destination, return false.
+        if (game.getBoard().isPieceAt(end.getRow(), end.getCol()) && game.getBoard().isFriendlyPiece(this, end)) {
+            return false;
+        }
+        // If the piece isn't a knight
+        else if (this.getId() != 'N' && this.getId() != 'n') {
+            // Increment row if start row is lower than end row. Decrement if greater.
+            if (currRow > end.getRow()) {
+                rowInc = -1;
+            }
+            else if (currRow < end.getRow()) {
+                rowInc = 1;
+            }
+
+            // Increment column if start column is lower than end column. Decrement if greater.
+            if (currCol > end.getCol()) {
+                colInc = -1;
+            }
+            else if (currCol < end.getCol()) {
+                colInc = 1;
+            }
+
+            // Loop through path (start, end] and return false if there is a piece in the path.
+            for (currRow += rowInc, currCol += colInc;
+                 currCol != end.getCol() || currRow != end.getRow();
+                 currCol += colInc, currRow+= rowInc) {
+                if (getGame().getBoard().isPieceAt(currRow, currCol)) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -136,4 +191,9 @@ public class ChessPiece {
     public void setId(char id) {
         this.id = id;
     }
+
+    /**
+     * The setFirstMove method sets the first move variable to false when a pawn is used moved for the first time.
+     */
+    public void setFirstMove() {}
 }

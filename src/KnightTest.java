@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * The ChessTest class tests the moveTo() method of the Knight class.
+ * The KnightTest class tests the moveTo() method of the Knight class.
  *
  * @author  Thao-Tran Le-Phuong
  * @version 1.0 (05.Oct.2016)
@@ -21,11 +21,11 @@ public class KnightTest {
 
     @Before
     public void setUp() throws Exception {
-        game = new ChessGame("Thao1", "Thao2");
+        game = new ChessGame("player1", "player2");
         board = game.getBoard();
-        knight = board.getPieceAt(new ChessLocation(initialRow, initialCol));
         initialRow = 0;
         initialCol = 1;
+        knight = board.getPieceAt(new ChessLocation(initialRow, initialCol));
     }
 
     @After
@@ -34,85 +34,78 @@ public class KnightTest {
     }
 
     @Test
-    public void testValidMove1() {
+    public void testValidMoveToEmptySquare1() {
         // Test up 2, right 1.
         location = knight.getLocation();
-        ChessLocation newLocation = new ChessLocation(location.getRow() - 2, location.getCol() + 1);
-        knight.moveTo(newLocation);
-        location = knight.getLocation();
-        assert(location.getRow() == newLocation.getRow() && location.getCol() == newLocation.getCol());
-    }
-
-    @Test
-    public void testValidMove2() {
-        location = knight.getLocation();
-        ChessLocation newLocation = new ChessLocation(location.getRow() - 2, location.getCol() - 1);
-        knight.moveTo(newLocation);
-        location = knight.getLocation();
-        assert(location.getRow() == newLocation.getRow() && location.getCol() == newLocation.getCol());
-    }
-
-    @Test
-    public void testValidMove3() {
-        location = new ChessLocation(4, 4);
-        board.placePieceAt(knight, location);
         ChessLocation newLocation = new ChessLocation(location.getRow() + 2, location.getCol() + 1);
         knight.moveTo(newLocation);
-        location = knight.getLocation();
-        assert(location.getRow() == newLocation.getRow() && location.getCol() == newLocation.getCol());
+        assert(!game.getInvalidMove());
     }
 
     @Test
-    public void testValidMove4() {
-        location = new ChessLocation(4, 4);
-        board.placePieceAt(knight, location);
+    public void testValidMoveToEmptySquare2() {
+        location = knight.getLocation();
         ChessLocation newLocation = new ChessLocation(location.getRow() + 2, location.getCol() - 1);
         knight.moveTo(newLocation);
-        location = knight.getLocation();
-        assert(location.getRow() == newLocation.getRow() && location.getCol() == newLocation.getCol());
+        assert(!game.getInvalidMove());
     }
 
     @Test
-    public void testValidMove5() {
-        location = knight.getLocation();
-        ChessLocation newLocation = new ChessLocation(location.getRow() - 1, location.getCol() + 2);
-        knight.moveTo(newLocation);
-        location = knight.getLocation();
-        assert(location.getRow() == newLocation.getRow() && location.getCol() == newLocation.getCol());
-    }
-
-    @Test
-    public void testValidMove6() {
+    public void testValidMoveToEmptySquare3() {
         location = new ChessLocation(4, 4);
         board.placePieceAt(knight, location);
-        ChessLocation newLocation = new ChessLocation(location.getRow() - 1, location.getCol() - 2);
+        ChessLocation newLocation = new ChessLocation(location.getRow() - 2, location.getCol() - 1);
         knight.moveTo(newLocation);
-        location = knight.getLocation();
-        assert(location.getRow() == newLocation.getRow() && location.getCol() == newLocation.getCol());
+        assert(!game.getInvalidMove());
     }
 
     @Test
-    public void testValidMove7() {
+    public void testValidMoveToEmptySquare5() {
         location = new ChessLocation(4, 4);
         board.placePieceAt(knight, location);
         ChessLocation newLocation = new ChessLocation(location.getRow() + 1, location.getCol() + 2);
         knight.moveTo(newLocation);
-        location = knight.getLocation();
-        assert(location.getRow() == newLocation.getRow() && location.getCol() == newLocation.getCol());
+        assert(!game.getInvalidMove());
     }
 
     @Test
-    public void testValidMove8() {
+    public void testValidMoveToEmptySquare6() {
         location = new ChessLocation(4, 4);
         board.placePieceAt(knight, location);
-        ChessLocation newLocation = new ChessLocation(location.getRow() + 1, location.getCol() - 2);
+        ChessLocation newLocation = new ChessLocation(location.getRow() + 1, location.getCol() + 2);
         knight.moveTo(newLocation);
-        location = knight.getLocation();
-        assert(location.getRow() == newLocation.getRow() && location.getCol() == newLocation.getCol());
+        assert(!game.getInvalidMove());
     }
 
     @Test
-    public void testInvalidMove1() {
+    public void testValidMoveToEmptySquare7() {
+        location = new ChessLocation(4, 4);
+        board.placePieceAt(knight, location);
+        ChessLocation newLocation = new ChessLocation(location.getRow() - 1, location.getCol() - 2);
+        knight.moveTo(newLocation);
+        assert(!game.getInvalidMove());
+    }
+
+    @Test
+    public void testValidMoveToEmptySquare8() {
+        location = new ChessLocation(4, 4);
+        board.placePieceAt(knight, location);
+        ChessLocation newLocation = new ChessLocation(location.getRow() + 1, location.getCol() + 2);
+        knight.moveTo(newLocation);
+        assert(!game.getInvalidMove());
+    }
+
+    @Test
+    public void testValidMoveToOccupiedSquare() {
+        location = new ChessLocation(2, 1);
+        board.placePieceAt(knight, location);
+        ChessLocation newLocation = new ChessLocation(location.getRow() - 2, location.getCol() + 1);
+        knight.moveTo(newLocation);
+        assert(game.getInvalidMove());
+    }
+
+    @Test
+    public void testInvalidMoveToEmptySquare1() {
         location = knight.getLocation();
         ChessLocation newLocation = new ChessLocation(location.getRow() - 2, location.getCol() + 2);
         knight.moveTo(newLocation);
@@ -120,7 +113,7 @@ public class KnightTest {
     }
 
     @Test
-    public void testInvalidMove2() {
+    public void testInvalidMoveToEmptySquare2() {
         location = knight.getLocation();
         ChessLocation setLocation = new ChessLocation(7, 0);
         ChessLocation newLocation = new ChessLocation(9, 1);
@@ -131,7 +124,7 @@ public class KnightTest {
     }
 
     @Test
-    public void testInvalidMove3() {
+    public void testInvalidMoveToEmptySquare3() {
         location = knight.getLocation();
         ChessLocation newLocation = new ChessLocation(location.getRow() - 1, location.getCol() + 4);
         knight.moveTo(newLocation);
@@ -139,7 +132,7 @@ public class KnightTest {
     }
 
     @Test
-    public void testInvalidMove4() {
+    public void testInvalidMoveToEmptySquare4() {
         location = knight.getLocation();
         ChessLocation newLocation = new ChessLocation(location.getRow() + 10, location.getCol() - 10);
         knight.moveTo(newLocation);

@@ -47,7 +47,7 @@ public class PlayGame {
             if (input.equals("quit")) {
                 quit = true;
             }
-            else {
+            else if (input.equals("move")) {
                 System.out.println("\n\n\n" + game.getBoard());
                 // Get new location of knight or "quit" from user
                 System.out.println("Input the position of the piece you would like to move. Example: 'A 1'");
@@ -87,6 +87,9 @@ public class PlayGame {
                 } else {
                     game.setInvalidMove(true);
                 }
+            }
+            else {
+                game.setInvalidMove(true);
             }
 
             game.getBoard().resetShadows();
