@@ -9,7 +9,7 @@
 public class Queen extends ChessPiece {
     /**
      * The Queen constructor initializes the owner, location, and game variables to the corresponding passed
-     * parameters, and invalidMove to false. The constructor also places the object at the initial location on the
+     * parameters, and the ID of the queen. The constructor also places the object at the initial location on the
      * chessboard.
      *
      * @param owner String representing the name of the owner of the game.
@@ -26,9 +26,6 @@ public class Queen extends ChessPiece {
         else {
             setId('q');
         }
-
-        // Place queen at initial location, i.e. (0, 3) or (7, 3).
-        game.getBoard().placePieceAt(this, initialLocation);
     }
 
 

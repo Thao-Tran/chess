@@ -9,12 +9,12 @@
 public class Rook extends ChessPiece {
     /**
      * The Rook constructor initializes the owner, location, and game variables to the corresponding passed
-     * parameters. The constructor also places the object at the initial location on the
+     * parameters, and the ID of the rook. The constructor also places the object at the initial location on the
      * chessboard.
      *
      * @param owner           String representing the name of the owner of the game.
-     * @param initialLocation ChessLocation object representing the initial location of the piece
-     * @param game            ChessGame object represent the chess game that the piece is for
+     * @param initialLocation ChessLocation object representing the initial location of the piece.
+     * @param game            ChessGame object represent the chess game that the piece is for.
      */
     public Rook(String owner, ChessLocation initialLocation, ChessGame game) {
         super(owner, initialLocation, game);
@@ -26,9 +26,6 @@ public class Rook extends ChessPiece {
         else { // If player 2, set ID to 'r'
             setId('r');
         }
-
-        // Place rook at initial location, i.e. (0,0), (0,7), (7, 0), or (7, 7)
-        game.getBoard().placePieceAt(this, initialLocation);
     }
 
 

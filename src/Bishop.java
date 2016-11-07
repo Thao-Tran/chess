@@ -9,7 +9,7 @@
 public class Bishop extends ChessPiece{
     /**
      * The Bishop constructor initializes the owner, location, and game variables to the corresponding passed
-     * parameters, and invalidMove to false. The constructor also places the object at the initial location on the
+     * parameters, and the ID of the bishop. The constructor also places the object at the initial location on the
      * chessboard.
      *
      * @param owner String representing the name of the owner of the game.
@@ -27,9 +27,6 @@ public class Bishop extends ChessPiece{
         else {
             setId('b');
         }
-
-        // Place bishop at initial location, i.e. (0,2) or (0,5).
-        game.getBoard().placePieceAt(this, initialLocation);
     }
 
     @Override

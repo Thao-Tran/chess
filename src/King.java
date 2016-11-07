@@ -7,6 +7,15 @@
  * @version 1.0 (22.Oct.2016)
  */
 public class King extends ChessPiece {
+    /**
+     * The King constructor initializes the owner, location, and game variables to the corresponding passed
+     * parameters, and the ID of the King. The constructor also places the object at the initial location on the
+     * chessboard.
+     *
+     * @param owner           String representing the name of the owner of the game.
+     * @param initialLocation ChessLocation object representing the initial location of the piece.
+     * @param game            ChessGame object represent the chess game that the piece is for.
+     */
     public King(String owner, ChessLocation initialLocation, ChessGame game) {
         super(owner, initialLocation, game);
 
@@ -17,9 +26,6 @@ public class King extends ChessPiece {
         else {
             setId('k');
         }
-
-        // Place king at initial location, i.e. (0,4) or (7, 4)
-        game.getBoard().placePieceAt(this, initialLocation);
     }
 
     @Override

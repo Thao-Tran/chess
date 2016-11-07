@@ -11,12 +11,12 @@ public class Pawn extends ChessPiece{
 
     /**
      * The Pawn constructor initializes the owner, location, and game variables to the corresponding passed
-     * parameters. The constructor also places the object at the initial location on the
+     * parameters, and the ID of the pawn. The constructor also places the object at the initial location on the
      * chessboard.
      *
      * @param owner           String representing the name of the owner of the game.
-     * @param initialLocation ChessLocation object representing the initial location of the piece
-     * @param game            ChessGame object represent the chess game that the piece is for
+     * @param initialLocation ChessLocation object representing the initial location of the piece.
+     * @param game            ChessGame object represent the chess game that the piece is for.
      */
     public Pawn(String owner, ChessLocation initialLocation, ChessGame game) {
         super(owner, initialLocation, game);
@@ -28,9 +28,6 @@ public class Pawn extends ChessPiece{
         else {
             setId('p');
         }
-
-        // Place queen at initial location, i.e. (1, 0 - 7) or (6, 0 - 7).
-        game.getBoard().placePieceAt(this, initialLocation);
 
         firstMove = true;
     }

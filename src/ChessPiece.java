@@ -12,14 +12,24 @@ public class ChessPiece {
     private ChessLocation location;
     protected char id;
 
+    /**
+     * The Queen constructor initializes the owner, location, and game variables to the corresponding passed
+     * parameters. The constructor also places the object at the initial location on the
+     * chessboard.
+     *
+     * @param owner String representing the name of the owner of the game.
+     * @param initialLocation ChessLocation object representing the initial location of the piece.
+     * @param game ChessGame object represent the chess game that the piece is for.
+     */
     public ChessPiece(String owner, ChessLocation initialLocation, ChessGame game) {
         player = owner;
         location = initialLocation;
         this.game = game;
+        game.getBoard().placePieceAt(this, initialLocation);
     }
 
     /**
-     * The moveTo method moves the knight if the inputted location is within bounds [0, 7] and is a valid move.
+     * The moveTo method moves the chess piece if the inputted location is within bounds [0, 7] and is a valid move.
      *
      * @param newLocation ChessLocation object that represents the new location that the chess piece will be placed at
      */
